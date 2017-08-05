@@ -40,5 +40,7 @@ Results:
 Contributions
 -----
 Idea by Coldwings
+
 Original Code by QuantumLiu
+
 Modified by Kotobukki
