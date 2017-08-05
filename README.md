@@ -36,3 +36,9 @@ Example
 Results:
 
 ![Results](https://raw.githubusercontent.com/kotobukki/Keras_FB/master/Examples/MNIST/Mnist_Example.jpg)
+
+Contributions
+-----
+Idea by Coldwings
+Original Code by QuantumLiu
+Modified by Kotobukki
