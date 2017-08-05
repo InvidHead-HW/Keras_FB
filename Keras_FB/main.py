@@ -51,9 +51,8 @@ def send_img(filename):
         return
     else:
         return
-#==============================================================================
-#     
-#==============================================================================
+
+
 class sendmessage(Callback):
 
     def __init__(self,savelog=True,fexten='',username="",password=""):
@@ -97,9 +96,8 @@ class sendmessage(Callback):
             m=(int(sec/60) if int(sec/60) else 1)
             th.start_new_thread(system, ('shutdown -h -t %d' %m,))
             
-#==============================================================================
-#         
-#==============================================================================
+        
+
     def cancel(self):
         #Cancel function to cancel shutting down the computer
         self.t_send('Command accepted,cancel shutting down the computer....')
@@ -107,9 +105,8 @@ class sendmessage(Callback):
             th.start_new_thread(system, ('shutdown -a',))
         else:
             th.start_new_thread(system, ('shutdown -c',))
-#==============================================================================
-#         
-#==============================================================================
+        
+
     def GetMiddleStr(self,content,startStr,endStr):
         #get the string between two specified strings
         #从指定的字符串之间截取字符串
@@ -121,18 +118,15 @@ class sendmessage(Callback):
           return content[startIndex:endIndex]
         except:
             return ''
-#==============================================================================
-# 
-#==============================================================================
+
+
     def validateTitle(self,title):
         #transform a string to a validate filename
-        #将字符串转化为合法文件名
         rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/\:*?"<>|'
         new_title = re.sub(rstr, "", title).replace(' ','')
         return new_title
-#==============================================================================
-#         
-#==============================================================================
+        
+
     def prog(self):#Show progress
         nb_batches_total=(self.params['nb_epoch'] if not kv-1 else self.params['epochs'])*self.params['nb_sample']/self.params['batch_size']
         nb_batches_epoch=self.params['nb_sample']/self.params['batch_size']
@@ -158,9 +152,8 @@ class sendmessage(Callback):
             self.t_send(m)
             print(m)
             
-#==============================================================================
-# 
-#==============================================================================
+
+
     def get_fig(self,level='all',metrics=['all']):
         color_list='rgbyck'*10
         def batches(color_list='rgbyck'*10,metrics=['all']):
@@ -182,16 +175,15 @@ class sendmessage(Callback):
             plt.tight_layout()
             plt.savefig(filename)
             plt.close('all')
-#==============================================================================
 
-#==============================================================================
+
+
             self.t_send_img(filename)
             time.sleep(.5)
             self.t_send('Batches figure')
             return
-#==============================================================================
-#             
-#==============================================================================
+
+
         def epochs(color_list='rgbyck'*10,metrics=['all']):
             if 'all' in metrics:
                 m_available=list(self.logs_epochs.keys())
@@ -210,16 +202,15 @@ class sendmessage(Callback):
             plt.tight_layout()
             plt.savefig(filename)
             plt.close('all')
-#==============================================================================
 
-#==============================================================================
+
+
             self.t_send_img(filename)
             time.sleep(.5)
             self.t_send('Epochs figure')
             return
-#==============================================================================
-#             
-#==============================================================================
+
+
         try:
             if not self.epoch and (level in ['all','epochs']):
                 level='batches'
@@ -243,9 +234,8 @@ class sendmessage(Callback):
                 return
         except Exception:
             return
-#==============================================================================
-#             
-#==============================================================================
+
+
     def gpu_status(self,av_type_list):
         for t in av_type_list:
             cmd='nvidia-smi -q --display='+t
@@ -260,9 +250,8 @@ class sendmessage(Callback):
             self.t_send(s)
             time.sleep(.5)
         #th.exit()
-#==============================================================================
-# 
-#==============================================================================
+
+
     def on_train_begin(self, logs={}):
         self.epoch=[]
         self.t_epochs=[]
@@ -274,13 +263,10 @@ class sendmessage(Callback):
         self.mesg = 'Train started at: '+self.localtime
         self.t_send(self.mesg)
         self.stopped_epoch = (self.params['epochs'] if kv-1 else self.params['nb_epoch'])
-#==============================================================================
 
-#==============================================================================
 
-#==============================================================================
-#     
-#==============================================================================
+
+
     def on_batch_end(self, batch, logs=None):
         logs = logs or {}
         for k in self.params['metrics']:
@@ -288,26 +274,26 @@ class sendmessage(Callback):
                 self.logs_batches.setdefault(k, []).append(logs[k])
         self.c_batches+=1
         self.t_batches+=1
-#==============================================================================
-#                 
-#==============================================================================
+
+               
+
     def on_epoch_begin(self, epoch, logs=None):
         self.t_s=time.time()
         self.epoch.append(epoch)
         self.c_batches=0
         self.t_send('Epoch'+str(epoch+1)+'/'+str(self.stopped_epoch)+' started')
         self.mesg = ('Epoch:'+str(epoch+1)+' ')
-#==============================================================================
-#         
-#==============================================================================
+
+       
+
     def on_epoch_end(self, epoch, logs=None):
         for k in self.params['metrics']:
             if k in logs:
                 self.mesg+=(k+': '+str(logs[k])[:5]+' ')
                 self.logs_epochs.setdefault(k, []).append(logs[k])
-#==============================================================================
 
-#==============================================================================
+
+
         if epoch+1>=self.stopped_epoch:
             self.model.stop_training = True
         logs = logs or {}
@@ -317,14 +303,13 @@ class sendmessage(Callback):
             sio.savemat((self.fexten if self.fexten else self.validateTitle(self.localtime))+'_logs_batches'+'.mat',{'log':np.array(self.logs_batches)})
             sio.savemat((self.fexten if self.fexten else self.validateTitle(self.localtime))+'_logs_batches'+'.mat',{'log':np.array(self.logs_epochs)})
         th.start_new_thread(self.get_fig,())
-#==============================================================================
 
-#==============================================================================
+
+
         self.t_send(self.mesg)
         return
-#==============================================================================
-#         
-#==============================================================================
+         
+
     def on_train_end(self, logs=None):
         self.t_send('Train stopped at epoch'+str(self.epoch[-1]+1))
    
