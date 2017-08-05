@@ -1,7 +1,7 @@
 # Keras Messenger
 ![Slogan](https://raw.githubusercontent.com/kotobukki/Keras_FB/master/slogan.png)
 
-The Python library enable Keras to send real-time training data to your Messenger account
+The Python library enables Keras to send real-time training data to your Messenger account
 
 [WTF is Keras??](https://github.com/fchollet/keras/blob/master/README.md)
 
