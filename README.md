@@ -1,4 +1,4 @@
-# Keras_FB
+# Keras Messenger
 The Python library enable Keras to send real-time training data to your Messenger account
 
 Installation
