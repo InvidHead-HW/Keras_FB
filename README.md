@@ -4,10 +4,6 @@ The Python library enable Keras to send real-time training data to your Messenge
 Installation
 -----
 ```
-sudo python setup.py install
-```
-Or use pip(Still Working On it):
-```
 pip install Keras_FB
 ```
 Usage
