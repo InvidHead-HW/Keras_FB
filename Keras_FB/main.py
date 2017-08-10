@@ -2,6 +2,7 @@
 #Original Author: QuantumLiu
 #https://github.com/QuantumLiu/wechat_callback/blob/master/wechat_utils.py
 #Modified by Kotobuki
+import settings
 def send_text(text):
     try:
         client.sendMessage(text, thread_id=client.uid, thread_type=ThreadType.USER)
