@@ -7,25 +7,25 @@ The Python library enables Keras to send real-time training info to your Messeng
 
 Installation
 -----
-```
+```shell
 pip install Keras_FB
 ```
 Usage
 -----
 Add following line for importing the library
-```
+```python
 from Keras_FB import main as fb 
 ```
 
 Add following line in fitting process
-```
+```python
 callbacks=[fb.sendmessage(savelog=True,
   fexten='TEST',
 	username='PutYourUsernameIn', #facebook username
 	password='PutYourPasswordIn')] #facebook password
 ```
 The fitting part's code should now looks like this
-```
+```python
 model.fit(X_train, Y_train, epochs=epoch, batch_size=batch,
 	callbacks=[fb.sendmessage(savelog=True,
 		fexten='TEST',
